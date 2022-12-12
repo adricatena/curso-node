@@ -1,4 +1,4 @@
 export default (req, res, next) => {
-  console.log(req)
+  console.log('Nueva peticion!!')
   next()
 }
