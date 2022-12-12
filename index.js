@@ -51,6 +51,13 @@ app.get("/api/notes/:id", (request, response) => {
   }
 })
 
+app.delete("/api/notes/:id", (req, res) => {
+  const { id } = req.params
+  notes = notes.filter(note => note.id !== Number(id))
+  console.log(notes)
+  res.status(204).end()
+})
+
 const PORT = 3001
 // express corre de manera asincrona, le pasamos como callback la funcion a ejecutar cuando termine
 app.listen(PORT, () => {
