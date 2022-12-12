@@ -1,5 +1,6 @@
 // import { createServer } from "http"
 import express, { json } from 'express'
+import logger from './middleware/logger.js'
 
 let notes = [
   {
@@ -36,10 +37,7 @@ const app = express()
 // Esto es un middleware
 app.use(json()) // para que logre parsear correctamente el json que viene en el body de las peticiones
 
-app.use((req, res, next) => {
-  console.log(req)
-  next()
-})
+app.use(logger)
 
 app.get('/', (request, response) => {
   response.send('<h1>Hola mundo!</h1>')
