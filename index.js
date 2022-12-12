@@ -1,5 +1,5 @@
 // import { createServer } from "http"
-import express from "express"
+import express, { json } from "express"
 
 let notes = [
   {
@@ -32,6 +32,7 @@ let notes = [
 // console.log(`Server running on port: ${PORT}`)
 
 const app = express()
+app.use(json()) // para que logre parsear correctamente el json que viene en el body de las peticiones
 
 app.get("/", (request, response) => {
   response.send("<h1>Hola mundo!</h1>")
@@ -56,6 +57,30 @@ app.delete("/api/notes/:id", (req, res) => {
   notes = notes.filter(note => note.id !== Number(id))
   console.log(notes)
   res.status(204).end()
+})
+
+app.post("/api/notes", (req, res) => {
+  const { content, important } = req.body
+
+  // aca deberiamos comprobar que content e important cumplan con todas las condiciones
+
+  if (!content) {
+    res.status(400).json({
+      error: "content is missing",
+    })
+  } else {
+    const ids = notes.map(note => note.id)
+    const maxId = Math.max(...ids)
+    const newNote = {
+      id: maxId + 1,
+      content,
+      important,
+      date: new Date().toISOString(),
+    }
+    notes.push(newNote)
+    console.log({ newNote, notes })
+    res.status(201).json(newNote)
+  }
 })
 
 const PORT = 3001
