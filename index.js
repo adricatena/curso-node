@@ -1,5 +1,5 @@
 // import { createServer } from "http"
-import express, { request, response } from "express"
+import express from "express"
 
 let notes = [
   {
@@ -39,6 +39,16 @@ app.get("/", (request, response) => {
 
 app.get("/api/notes", (request, response) => {
   response.json(notes) // equivalente a content-type... y stringifear los datos
+})
+
+app.get("/api/notes/:id", (request, response) => {
+  const { id } = request.params
+  const note = notes.find(note => note.id === Number(id))
+  if (note) {
+    response.send(note)
+  } else {
+    response.status(404).end()
+  }
 })
 
 const PORT = 3001
