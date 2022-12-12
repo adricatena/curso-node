@@ -1,9 +1,10 @@
-import { createServer } from "http"
+// import { createServer } from "http"
+import express, { request, response } from "express"
 
 let notes = [
   {
     id: 1,
-    content: "HTML is easy",
+    content: "HTML is not easy",
     date: "2022-05-30T17:30:31.098Z",
     important: true,
   },
@@ -21,11 +22,27 @@ let notes = [
   },
 ]
 
-const app = createServer((request, response) => {
-  response.writeHead(200, { "Content-Type": "text/plain" })
-  response.end(JSON.stringify(notes))
+// const app = createServer((request, response) => {
+//   response.writeHead(200, { "Content-Type": "application/json" })
+//   response.end(JSON.stringify(notes))
+// })
+
+// const PORT = 3001
+// app.listen(PORT)
+// console.log(`Server running on port: ${PORT}`)
+
+const app = express()
+
+app.get("/", (request, response) => {
+  response.send("<h1>Hola mundo!</h1>")
+})
+
+app.get("/api/notes", (request, response) => {
+  response.json(notes) // equivalente a content-type... y stringifear los datos
 })
 
 const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port: ${PORT}`)
+// express corre de manera asincrona, le pasamos como callback la funcion a ejecutar cuando termine
+app.listen(PORT, () => {
+  console.log(`Server running on port: ${PORT}`)
+})
