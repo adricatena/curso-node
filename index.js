@@ -36,6 +36,11 @@ const app = express()
 // Esto es un middleware
 app.use(json()) // para que logre parsear correctamente el json que viene en el body de las peticiones
 
+app.use((req, res, next) => {
+  console.log(req)
+  next()
+})
+
 app.get('/', (request, response) => {
   response.send('<h1>Hola mundo!</h1>')
 })
@@ -83,6 +88,10 @@ app.post('/api/notes', (req, res) => {
     console.log({ newNote, notes })
     res.status(201).json(newNote)
   }
+})
+
+app.use((req, res) => {
+  res.status(404).send('<h1>404</h1>')
 })
 
 const PORT = 3001
