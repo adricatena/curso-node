@@ -1,5 +1,6 @@
 // import { createServer } from "http"
 import express, { json } from 'express'
+import cors from 'cors'
 import logger from './middleware/logger.js'
 
 let notes = [
@@ -35,6 +36,7 @@ let notes = [
 const app = express()
 
 // Esto es un middleware
+app.use(cors())
 app.use(json()) // para que logre parsear correctamente el json que viene en el body de las peticiones
 
 app.use(logger)
