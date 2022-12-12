@@ -1,25 +1,25 @@
 // import { createServer } from "http"
-import express, { json } from "express"
+import express, { json } from 'express'
 
 let notes = [
   {
     id: 1,
-    content: "HTML is not easy",
-    date: "2022-05-30T17:30:31.098Z",
-    important: true,
+    content: 'HTML is not easy',
+    date: '2022-05-30T17:30:31.098Z',
+    important: true
   },
   {
     id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2022-05-30T18:39:34.091Z",
-    important: false,
+    content: 'Browser can execute only Javascript',
+    date: '2022-05-30T18:39:34.091Z',
+    important: false
   },
   {
     id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2022-05-30T19:20:14.298Z",
-    important: true,
-  },
+    content: 'GET and POST are the most important methods of HTTP protocol',
+    date: '2022-05-30T19:20:14.298Z',
+    important: true
+  }
 ]
 
 // const app = createServer((request, response) => {
@@ -32,17 +32,19 @@ let notes = [
 // console.log(`Server running on port: ${PORT}`)
 
 const app = express()
+
+// Esto es un middleware
 app.use(json()) // para que logre parsear correctamente el json que viene en el body de las peticiones
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hola mundo!</h1>")
+app.get('/', (request, response) => {
+  response.send('<h1>Hola mundo!</h1>')
 })
 
-app.get("/api/notes", (request, response) => {
+app.get('/api/notes', (request, response) => {
   response.json(notes) // equivalente a content-type... y stringifear los datos
 })
 
-app.get("/api/notes/:id", (request, response) => {
+app.get('/api/notes/:id', (request, response) => {
   const { id } = request.params
   const note = notes.find(note => note.id === Number(id))
   if (note) {
@@ -52,21 +54,21 @@ app.get("/api/notes/:id", (request, response) => {
   }
 })
 
-app.delete("/api/notes/:id", (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
   const { id } = req.params
   notes = notes.filter(note => note.id !== Number(id))
   console.log(notes)
   res.status(204).end()
 })
 
-app.post("/api/notes", (req, res) => {
+app.post('/api/notes', (req, res) => {
   const { content, important } = req.body
 
   // aca deberiamos comprobar que content e important cumplan con todas las condiciones
 
   if (!content) {
     res.status(400).json({
-      error: "content is missing",
+      error: 'content is missing'
     })
   } else {
     const ids = notes.map(note => note.id)
@@ -75,7 +77,7 @@ app.post("/api/notes", (req, res) => {
       id: maxId + 1,
       content,
       important,
-      date: new Date().toISOString(),
+      date: new Date().toISOString()
     }
     notes.push(newNote)
     console.log({ newNote, notes })
