@@ -94,7 +94,7 @@ app.use((req, res) => {
   res.status(404).send('<h1>404</h1>')
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 // express corre de manera asincrona, le pasamos como callback la funcion a ejecutar cuando termine
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`)
